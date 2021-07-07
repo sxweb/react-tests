@@ -1,0 +1,1 @@
+export const inc = (payload)=> ({type: 'INC', payload});

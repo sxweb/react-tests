@@ -1,13 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import {createStore} from "redux";
+import {inc} from './actions';
+import reducer from "./reducer";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App >
-      <h1>first child</h1>
-      <h2>second child</h2>
-    </App>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+
+const store = createStore(reducer);
+const {dispatch} = store;
+store.subscribe(() =>{
+    document
+        .querySelector('#counter')
+        .textContent = store.getState().reduce((sum, curr) =>{
+            return sum + curr;
+    });
+});
+
+document
+    .querySelector('#main-button')
+    .addEventListener('click', (e) =>{
+        e.preventDefault();
+        const payload = +document.querySelector('#value').value;
+        dispatch(inc(payload));
+    });
+
